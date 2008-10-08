@@ -1,7 +1,5 @@
 package de.uniol.ui.fsm.model.transitions;
 
-import java.util.Arrays;
-
 import de.uniol.ui.fsm.model.FSM;
 import de.uniol.ui.fsm.model.SignalListener;
 import de.uniol.ui.fsm.model.states.State;
@@ -43,10 +41,10 @@ public abstract class Transition implements SignalListener {
 				&& sender.equals(source)
 				&& (signal == name || (signal != null && signal.equals(name)))
 				&& guard()) {
-			System.out.println("Time=" + fsm.getClock() + " - "
-					+ this.getClass().getSimpleName() + " received Signal <"
-					+ signal + "> from " + sender.getClass().getSimpleName()
-					+ ", params=" + Arrays.toString(params));
+//			System.out.println("Time=" + fsm.getClock() + " - "
+//					+ this.getClass().getSimpleName() + " received Signal <"
+//					+ signal + "> from " + sender.getClass().getSimpleName()
+//					+ ", params=" + Arrays.toString(params));
 			source.exit(dest);
 			action(params);
 			dest.entry(dest);
