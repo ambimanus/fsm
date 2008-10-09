@@ -5,9 +5,9 @@ import de.uniol.ui.fsm.projects.fridge.BaseController;
 
 public class T_wait_random_EV_unload_TO_restore extends TimerTransition {
 
-	Extension_DSC_stateful dsc;
+	Extension_DSC_stateful_fullwidth dsc;
 
-	public T_wait_random_EV_unload_TO_restore(Extension_DSC_stateful fsm,
+	public T_wait_random_EV_unload_TO_restore(Extension_DSC_stateful_fullwidth fsm,
 			State_wait_random source, State_wait_restore dest) {
 		super(fsm, source, dest, 0L);
 		this.dsc = fsm;

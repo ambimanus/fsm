@@ -4,9 +4,9 @@ import de.uniol.ui.fsm.model.states.State;
 
 public class State_wait_restore extends State {
 
-	private Extension_DSC_stateful dsc;
+	private Extension_DSC_stateful_fullwidth dsc;
 
-	public State_wait_restore(Extension_DSC_stateful fsm) {
+	public State_wait_restore(Extension_DSC_stateful_fullwidth fsm) {
 		super("wait_random", fsm, null);
 		this.dsc = fsm;
 	}

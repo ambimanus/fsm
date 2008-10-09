@@ -5,9 +5,9 @@ import de.uniol.ui.fsm.projects.fridge.BaseController;
 
 public class T_wait_restore_EV_load_TO_idle extends TimerTransition {
 
-	Extension_DSC_stateful dsc;
+	Extension_DSC_stateful_fullwidth dsc;
 
-	public T_wait_restore_EV_load_TO_idle(Extension_DSC_stateful fsm,
+	public T_wait_restore_EV_load_TO_idle(Extension_DSC_stateful_fullwidth fsm,
 			State_wait_restore source, State_idle dest) {
 		super(fsm, source, dest, 0L);
 		this.dsc = fsm;

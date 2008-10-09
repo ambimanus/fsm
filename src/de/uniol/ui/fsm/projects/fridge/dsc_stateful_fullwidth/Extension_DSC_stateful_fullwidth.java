@@ -3,7 +3,7 @@ package de.uniol.ui.fsm.projects.fridge.dsc_stateful_fullwidth;
 import de.uniol.ui.fsm.model.FSM;
 import de.uniol.ui.fsm.projects.fridge.BaseController;
 
-public class Extension_DSC_stateful extends FSM {
+public class Extension_DSC_stateful_fullwidth extends FSM {
 
 	public final static String EV_LOAD = "ev_load";
 	public final static String EV_UNLOAD = "ev_unload";
@@ -23,7 +23,7 @@ public class Extension_DSC_stateful extends FSM {
 	private T_wait_restore_EV_unload_TO_idle t_restore_unload;
 
 	@SuppressWarnings("unused")
-	public Extension_DSC_stateful(BaseController bc) {
+	public Extension_DSC_stateful_fullwidth(BaseController bc) {
 		super("Extension_DSC_stateful (full-width)");
 		this.bc = bc;
 

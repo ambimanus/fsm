@@ -6,11 +6,11 @@ import de.uniol.ui.fsm.model.transitions.Transition;
 
 public class T_idle_EV_load_TO_wait_random extends Transition {
 
-	Extension_DSC_stateful dsc;
+	Extension_DSC_stateful_fullwidth dsc;
 
-	public T_idle_EV_load_TO_wait_random(Extension_DSC_stateful fsm, State_idle source,
+	public T_idle_EV_load_TO_wait_random(Extension_DSC_stateful_fullwidth fsm, State_idle source,
 			State_wait_random dest) {
-		super(fsm, Extension_DSC_stateful.EV_LOAD, source, dest);
+		super(fsm, Extension_DSC_stateful_fullwidth.EV_LOAD, source, dest);
 		this.dsc = fsm;
 	}
 
