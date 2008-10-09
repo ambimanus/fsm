@@ -5,7 +5,7 @@ import de.uniol.ui.fsm.model.transitions.TimerTransition;
 public class T_c_polling_TO_c_polling extends TimerTransition {
 
 	private BaseController bc;
-	
+
 	public T_c_polling_TO_c_polling(BaseController fsm, State_c_polling source) {
 		super(fsm, source, source, 1L);
 		this.bc = fsm;

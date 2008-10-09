@@ -5,7 +5,7 @@ import de.uniol.ui.fsm.model.states.State;
 public class State_cooling extends State {
 
 	private BaseController bc;
-	
+
 	public State_cooling(BaseController fsm) {
 		super("cooling", fsm, null);
 		this.bc = fsm;
@@ -20,7 +20,7 @@ public class State_cooling extends State {
 
 	protected void exitAction() {
 		bc.setTauCooling(((bc.getTmax() - bc.getTmin()) / (bc.getTfrom() - bc
-				.getTdest()))
+				.getFridge().getTemperature()))
 				* bc.getCounter());
 	}
 }

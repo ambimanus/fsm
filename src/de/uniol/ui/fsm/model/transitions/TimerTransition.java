@@ -43,4 +43,12 @@ public abstract class TimerTransition extends Transition implements
 			tm();
 		}
 	}
+
+	public long getWaitDelay() {
+		return waitDelay;
+	}
+
+	public void setWaitDelay(long waitDelay) {
+		this.waitDelay = waitDelay;
+	}
 }

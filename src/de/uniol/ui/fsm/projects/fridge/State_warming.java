@@ -19,8 +19,8 @@ public class State_warming extends State {
 	}
 
 	protected void exitAction() {
-		bc.setTauWarming(((bc.getTmax() - bc.getTmin()) / (bc.getTdest() - bc
-				.getTfrom()))
+		bc.setTauWarming(((bc.getTmax() - bc.getTmin()) / (bc.getFridge()
+				.getTemperature() - bc.getTfrom()))
 				* bc.getCounter());
 	}
 }

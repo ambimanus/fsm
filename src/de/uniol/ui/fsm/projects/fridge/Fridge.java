@@ -129,4 +129,8 @@ public class Fridge implements ClockListener {
 	public FSM getParent() {
 		return parent;
 	}
+
+	public boolean isActive() {
+		return active;
+	}
 }

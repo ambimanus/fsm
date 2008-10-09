@@ -17,15 +17,20 @@ public class BaseController extends FSM {
 	private double counter;
 	private double tauCooling = 150;
 	private double tauWarming = 300;
+	
+	private State_cooling cooling;
+	private State_c_polling c_polling;
+	private State_warming warming;
+	private State_w_polling w_polling;
 
 	@SuppressWarnings("unused")
 	public BaseController() {
 		super("BaseController");
 
-		State_cooling cooling = new State_cooling(this);
-		State_c_polling c_polling = new State_c_polling(this, cooling);
-		State_warming warming = new State_warming(this);
-		State_w_polling w_polling = new State_w_polling(this, warming);
+		cooling = new State_cooling(this);
+		c_polling = new State_c_polling(this, cooling);
+		warming = new State_warming(this);
+		w_polling = new State_w_polling(this, warming);
 
 		T_default_TO_cooling t_def = new T_default_TO_cooling(this, cooling);
 
@@ -118,5 +123,21 @@ public class BaseController extends FSM {
 
 	public void setTauWarming(double tauWarming) {
 		this.tauWarming = tauWarming;
+	}
+
+	public State_cooling getCooling() {
+		return cooling;
+	}
+
+	public State_c_polling getC_polling() {
+		return c_polling;
+	}
+
+	public State_warming getWarming() {
+		return warming;
+	}
+
+	public State_w_polling getW_polling() {
+		return w_polling;
 	}
 }
