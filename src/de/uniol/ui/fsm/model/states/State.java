@@ -72,7 +72,7 @@ public abstract class State {
 	}
 	
 	public void exit(State dest) {
-		if (!dest.isChildOf(this)) {
+		if (active && !dest.isChildOf(this)) {
 			exitAction();
 			active = false;
 			notifyActivationListeners();

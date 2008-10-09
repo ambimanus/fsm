@@ -23,8 +23,7 @@ public abstract class TimerTransition extends Transition implements
 	
 	public void clock(long clock) {
 		if (waiting && clock >= waitStart + waitDelay) {
-			waiting = false;
-			waitStart = 0L;
+			cancel();
 			signalReceived(EV_TM, getSource());
 		}
 	}
@@ -33,14 +32,23 @@ public abstract class TimerTransition extends Transition implements
 		waitStart = getFsm().getClock();
 		waiting = true;
 	}
+	
+	protected void cancel() {
+		waiting = false;
+		waitStart = 0L;
+	}
 
 	public boolean isWaiting() {
 		return waiting;
 	}
 
 	public void activationChanged(boolean active, Object sender) {
-		if (sender == getSource() && active) {
-			tm();
+		if (sender == getSource()) {
+			if (active) {
+				tm();
+			} else {
+				cancel();
+			}
 		}
 	}
 

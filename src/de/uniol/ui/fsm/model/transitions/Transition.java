@@ -37,15 +37,22 @@ public abstract class Transition implements SignalListener {
 	}
 
 	public boolean signalReceived(String name, Object sender, Object... params) {
-		if (source.isActive()
-				&& sender.equals(source)
-				&& (signal == name || (signal != null && signal.equals(name)))
-				&& guard()) {
+		boolean process = false;
+		if (name == null) {
+			process = signal == null && source.isActive()
+					&& sender.equals(source) && guard();
+		} else {
+			process = signal != null && signal.equals(name) && guard();
+		}
+		if (process) {
 //			if (fsm.getName().equals("Extension_DSC"))
 //			System.out.println("Time=" + fsm.getClock() + " - "
 //					+ this.getClass().getSimpleName() + " received Signal <"
 //					+ signal + "> from " + sender.getClass().getSimpleName()
 //					+ ", params=" + Arrays.toString(params));
+			if (sender != source && sender instanceof State) {
+				((State) sender).exit(dest);
+			}
 			source.exit(dest);
 			action(params);
 			dest.entry(dest);
