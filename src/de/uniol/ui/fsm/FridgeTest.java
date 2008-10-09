@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import de.uniol.ui.fsm.projects.fridge.BaseController;
-import de.uniol.ui.fsm.projects.fridge.dsc_stateful_fullwidth.Extension_DSC_stateful;
+import de.uniol.ui.fsm.projects.fridge.dsc_stateful_fullwidth.Extension_DSC_stateful_fullwidth;
 import de.uniol.ui.fsm.ui.LineChartDialog;
 import de.uniol.ui.fsm.ui.StepChartDialog;
 
@@ -18,14 +18,14 @@ public class FridgeTest {
 
 	public static void main(String[] args) {
 		BaseController bc = new BaseController();
-		Extension_DSC_stateful dsc = new Extension_DSC_stateful(bc);
+		Extension_DSC_stateful_fullwidth dsc = new Extension_DSC_stateful_fullwidth(bc);
 
 		long start = System.currentTimeMillis();
 		for (long l = 0L; l < steps; l++) {
 			bc.clock();
 			dsc.clock();
 			if (l == 270 * 60) {
-				dsc.signal(Extension_DSC_stateful.EV_LOAD, dsc.getIdle(), 0.0);
+				dsc.signal(Extension_DSC_stateful_fullwidth.EV_LOAD, dsc.getIdle(), 0.0);
 				dsc.dispatchSignals(dsc.getIdle());
 			}
 
