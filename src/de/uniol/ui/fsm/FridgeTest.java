@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import de.uniol.ui.fsm.projects.fridge.BaseController;
-import de.uniol.ui.fsm.projects.fridge.dsc.Extension_DSC;
+import de.uniol.ui.fsm.projects.fridge.dsc_stateful_fullwidth.Extension_DSC_stateful;
 import de.uniol.ui.fsm.ui.LineChartDialog;
 import de.uniol.ui.fsm.ui.StepChartDialog;
 
@@ -15,20 +15,20 @@ public class FridgeTest {
 	private final static long steps = 60 * 60 * 10;
 	/** Simulation speed, min=1, max=1000 */
 	private final static double speed = 1000.0;
-	
+
 	public static void main(String[] args) {
 		BaseController bc = new BaseController();
-		Extension_DSC dsc = new Extension_DSC(bc);
-		
+		Extension_DSC_stateful dsc = new Extension_DSC_stateful(bc);
+
 		long start = System.currentTimeMillis();
 		for (long l = 0L; l < steps; l++) {
 			bc.clock();
 			dsc.clock();
-			if (l == 170 * 60) {
-				dsc.signal(Extension_DSC.EV_UNLOAD, dsc.getIdle(), 0.0);
+			if (l == 270 * 60) {
+				dsc.signal(Extension_DSC_stateful.EV_LOAD, dsc.getIdle(), 0.0);
 				dsc.dispatchSignals(dsc.getIdle());
 			}
-			
+
 			// Delay
 			if (speed < 1000.0 && speed >= 1.0) {
 				try {
@@ -43,10 +43,10 @@ public class FridgeTest {
 		long ms = (dur % 60000l) % 1000l;
 		System.out.println(steps + " steps finished in " + min + "m" + sec
 				+ "s" + ms + "ms");
-		
+
 		showResults(true, bc);
 	}
-	
+
 	private static void showResults(boolean block, BaseController bc) {
 		Display display = Display.getDefault();
 		Shell shell = new Shell(display);
