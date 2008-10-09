@@ -24,8 +24,8 @@ public class FridgeTest {
 		for (long l = 0L; l < steps; l++) {
 			bc.clock();
 			dsc.clock();
-			if (l == 165 * 60) {
-				dsc.signal(Extension_DSC_random.EV_UNLOAD, dsc.getIdle(), 0.0);
+			if (l == 4 * 60 * 60) {
+				dsc.signal(Extension_DSC_random.EV_LOAD, dsc.getIdle(), 0.0);
 				dsc.dispatchSignals(dsc.getIdle());
 			}
 
