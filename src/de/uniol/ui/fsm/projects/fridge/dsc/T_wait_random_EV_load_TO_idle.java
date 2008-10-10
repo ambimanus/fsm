@@ -9,7 +9,7 @@ public class T_wait_random_EV_load_TO_idle extends TimerTransition {
 
 	public T_wait_random_EV_load_TO_idle(Extension_DSC fsm,
 			State_wait_random source, State_idle dest) {
-		super(fsm, source, dest, 0L);
+		super(fsm, source, dest, -1L);
 		this.dsc = fsm;
 	}
 

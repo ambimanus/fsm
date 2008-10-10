@@ -9,7 +9,7 @@ public class T_wait_random_EV_load_TO_restore extends TimerTransition {
 
 	public T_wait_random_EV_load_TO_restore(Extension_DSC_random fsm,
 			State_wait_random source, State_wait_restore dest) {
-		super(fsm, source, dest, 0L);
+		super(fsm, source, dest, -1L);
 		this.dsc = fsm;
 	}
 

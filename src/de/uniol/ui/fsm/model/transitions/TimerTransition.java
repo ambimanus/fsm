@@ -22,7 +22,7 @@ public abstract class TimerTransition extends Transition implements
 	}
 	
 	public void clock(long clock) {
-		if (waiting && clock >= waitStart + waitDelay) {
+		if (waiting && waitDelay >= 0L && clock >= waitStart + waitDelay) {
 			cancel();
 			signalReceived(EV_TM, getSource());
 		}

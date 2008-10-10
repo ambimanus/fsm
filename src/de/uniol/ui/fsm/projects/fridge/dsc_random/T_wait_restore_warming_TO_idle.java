@@ -9,7 +9,7 @@ public class T_wait_restore_warming_TO_idle extends TimerTransition {
 
 	public T_wait_restore_warming_TO_idle(Extension_DSC_random fsm,
 			State_wait_restore source, State_idle dest) {
-		super(fsm, source, dest, 0L);
+		super(fsm, source, dest, -1L);
 		this.dsc = fsm;
 	}
 
