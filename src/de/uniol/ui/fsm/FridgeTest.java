@@ -11,6 +11,7 @@ import de.uniol.ui.fsm.projects.fridge.dsc_random.Extension_DSC_random;
 import de.uniol.ui.fsm.projects.fridge.dsc_stateful.Extension_DSC_stateful;
 import de.uniol.ui.fsm.projects.fridge.dsc_stateful_fullwidth.Extension_DSC_stateful_fullwidth;
 import de.uniol.ui.fsm.projects.fridge.tlr.Extension_TLR;
+import de.uniol.ui.fsm.projects.fridge.tlr_extension_stateful.TLR_extension_stateful;
 import de.uniol.ui.fsm.ui.LineChartDialog;
 import de.uniol.ui.fsm.ui.StepChartDialog;
 
@@ -183,6 +184,12 @@ public class FridgeTest {
 		lcd.addSeries("Extension_TLR", bc.getFridge().getTempCol()
 				.getResults());
 		scd.addSeries("Extension_TLR", bc.getFridge().getLoadCol()
+				.getResults());
+		// 3) TLR_stateful
+		bc = run_TLR_stateful();
+		lcd.addSeries("TLR_extension_stateful", bc.getFridge().getTempCol()
+				.getResults());
+		scd.addSeries("TLR_extension_stateful", bc.getFridge().getLoadCol()
 				.getResults());
 
 		// Finish charts
@@ -489,6 +496,40 @@ public class FridgeTest {
 		for (long l = 0L; l < steps; l++) {
 			bc.clock();
 			tlr.clock();
+			if (l == tlr_t_notify) {
+				tlr.signal(Extension_TLR.EV_REDUCE, tlr.getIdle(),
+						tlr_tau_preload, tlr_tau_reduce);
+				tlr.dispatchSignals(tlr.getIdle());
+			}
+
+			// Delay
+			if (speed < 1000.0 && speed >= 1.0) {
+				try {
+					Thread.sleep(Math.round(1000.0 / speed));
+				} catch (InterruptedException e) {
+				}
+			}
+		}
+		long dur = System.currentTimeMillis() - start;
+		long min = dur / 60000l;
+		long sec = (dur % 60000l) / 1000l;
+		long ms = (dur % 60000l) % 1000l;
+		System.out.println(steps + " steps finished in " + min + "m" + sec
+				+ "s" + ms + "ms");
+		
+		return bc;
+	}
+	
+	private static BaseController run_TLR_stateful() {
+		BaseController bc = new BaseController();
+		Extension_TLR tlr = new Extension_TLR(bc);
+		TLR_extension_stateful ext = new TLR_extension_stateful(tlr);
+
+		long start = System.currentTimeMillis();
+		for (long l = 0L; l < steps; l++) {
+			bc.clock();
+			tlr.clock();
+			ext.clock();
 			if (l == tlr_t_notify) {
 				tlr.signal(Extension_TLR.EV_REDUCE, tlr.getIdle(),
 						tlr_tau_preload, tlr_tau_reduce);
