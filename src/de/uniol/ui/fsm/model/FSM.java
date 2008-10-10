@@ -87,15 +87,15 @@ public abstract class FSM {
 		while (it.hasNext()) {
 			Signal s = it.next();
 			it.remove();
-//			if (name.equals("Extension_TLR"))
+//			if (name.equals("TLR_extension_stateful"))
 //				System.out.println("Time=" + getClock() + " - Signal <"
 //						+ s.name + "> from "
 //						+ s.sender.getClass().getSimpleName() + ", params="
 //						+ Arrays.toString(s.params) + ", currentState="
 //						+ current.getClass().getSimpleName());
 			for (SignalListener sl : signalListeners) {
-				consumed = consumed
-						|| sl.signalReceived(s.name, s.sender, s.params);
+				consumed = sl.signalReceived(s.name, s.sender, s.params)
+						|| consumed;
 			}
 		}
 		waitingSignals.clear();
