@@ -12,7 +12,7 @@ public class State_wait_restore extends State {
 	}
 
 	protected void entryAction() {
-		dsc.setTau_restore(60L * Math.round(dsc.getBc().getTauCooling()
+		dsc.setTau_restore(Math.round(dsc.getBc().getTauCooling()
 				+ dsc.getBc().getTauWarming()));
 	}
 
