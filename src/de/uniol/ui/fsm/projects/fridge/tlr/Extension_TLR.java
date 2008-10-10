@@ -140,11 +140,11 @@ public class Extension_TLR extends FSM {
 	 * @param timespan
 	 * @return
 	 */
-	public State stateAfter(State current, double timespan) {
+	public DeviceState stateAfter(DeviceState current, double timespan) {
 		// Calculate base timespans
 		double tau_phaseChange = tau(current.t, current.active ? bc.getTmin()
 				: bc.getTmax());
-		State ret = new State();
+		DeviceState ret = new DeviceState();
 		if (timespan <= tau_phaseChange) {
 			// No phase change occurs in the given timespan.
 			ret.active = current.active;
@@ -202,15 +202,15 @@ public class Extension_TLR extends FSM {
 	 * 
 	 * @author Chh
 	 */
-	private static class State {
+	public static class DeviceState {
 		
 		public double t = Double.NaN;
 		public boolean active;
 
-		public State() {
+		public DeviceState() {
 		}
 		
-		public State(double temperature, boolean active) {
+		public DeviceState(double temperature, boolean active) {
 			this.t = temperature;
 			this.active = active;
 		}
@@ -222,8 +222,8 @@ public class Extension_TLR extends FSM {
 			if (this == obj) {
 				return true;
 			}
-			if (obj instanceof State) {
-				State casted = (State) obj;
+			if (obj instanceof DeviceState) {
+				DeviceState casted = (DeviceState) obj;
 				if (casted.t == t && casted.active == active) {
 					return true;
 				}
