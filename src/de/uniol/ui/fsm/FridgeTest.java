@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
 import de.uniol.ui.fsm.projects.fridge.BaseController;
-import de.uniol.ui.fsm.projects.fridge.dsc_random.Extension_DSC_random;
+import de.uniol.ui.fsm.projects.fridge.tlr.Extension_TLR;
 import de.uniol.ui.fsm.ui.LineChartDialog;
 import de.uniol.ui.fsm.ui.StepChartDialog;
 
@@ -18,15 +18,15 @@ public class FridgeTest {
 
 	public static void main(String[] args) {
 		BaseController bc = new BaseController();
-		Extension_DSC_random dsc = new Extension_DSC_random(bc);
+		Extension_TLR tlr = new Extension_TLR(bc);
 
 		long start = System.currentTimeMillis();
 		for (long l = 0L; l < steps; l++) {
 			bc.clock();
-			dsc.clock();
+			tlr.clock();
 			if (l == 4 * 60 * 60) {
-				dsc.signal(Extension_DSC_random.EV_LOAD, dsc.getIdle(), 0.0);
-				dsc.dispatchSignals(dsc.getIdle());
+				tlr.signal(Extension_TLR.EV_REDUCE, tlr.getIdle(), 30.0, 60.0);
+				tlr.dispatchSignals(tlr.getIdle());
 			}
 
 			// Delay
