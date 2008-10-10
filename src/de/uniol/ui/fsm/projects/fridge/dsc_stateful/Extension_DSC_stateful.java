@@ -79,8 +79,8 @@ public class Extension_DSC_stateful extends FSM {
 
 	public void setTau_restore(long tau_restore) {
 		this.tau_restore = tau_restore;
-		t_restore_load.setWaitDelay(tau_restore);
-		t_restore_unload.setWaitDelay(tau_restore);
+		t_restore_load.setWaitDelay(60L * tau_restore);
+		t_restore_unload.setWaitDelay(60L * tau_restore);
 	}
 
 	public BaseController getBc() {

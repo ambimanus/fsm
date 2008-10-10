@@ -16,11 +16,11 @@ public class State_wait_restore extends State {
 		double Tcrossing = dsc.getBc().getTmin() + dsc.getBc().getTmax()
 				- Tcurrent;
 		if (dsc.isDoUnload()) {
-			dsc.setTau_restore(60L * Math.round(dsc.getBc().tau_reqw(Tcurrent,
+			dsc.setTau_restore(Math.round(dsc.getBc().tau_reqw(Tcurrent,
 					dsc.getBc().getTmax())
 					+ dsc.getBc().tau_reqc(dsc.getBc().getTmax(), Tcrossing)));
 		} else {
-			dsc.setTau_restore(60L * Math.round(dsc.getBc().tau_reqc(Tcurrent,
+			dsc.setTau_restore(Math.round(dsc.getBc().tau_reqc(Tcurrent,
 					dsc.getBc().getTmin())
 					+ dsc.getBc().tau_reqw(dsc.getBc().getTmin(), Tcrossing)));
 		}
