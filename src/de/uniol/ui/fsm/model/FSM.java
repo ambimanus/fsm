@@ -6,7 +6,7 @@ import java.util.Iterator;
 import de.uniol.ui.fsm.model.states.NullState;
 import de.uniol.ui.fsm.model.states.State;
 
-public abstract class FSM {
+public class FSM {
 
 	private String name;
 	private long clock = 0L;

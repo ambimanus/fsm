@@ -128,7 +128,7 @@ public class TLR_extension_stateful extends FSM {
 
 	/**
 	 * Calculates the delay to the first point in future time where the
-	 * temperature curves of the two given DeviceStates do cross.
+	 * temperature curves of the two given DeviceStates will cross.
 	 * 
 	 * @param s1
 	 * @param s2
