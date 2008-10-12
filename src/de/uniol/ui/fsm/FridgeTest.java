@@ -19,17 +19,17 @@ import de.uniol.ui.fsm.ui.StepChartDialog;
 public class FridgeTest {
 
 	/** Simulation length */
-	private final static long steps = 60 * 60 * 15;
+	private final static long steps = 60 * 60 * 8;
 	/** Simulation speed, min=1, max=1000 */
 	private final static double speed = 1000.0;
 
-	private final static long dsc_load = 60 * 270;
+	private final static long dsc_load = 60 * 90;
 	private final static long dsc_unload = 60 * 170;
 	private final static double dsc_spread = 10.0;
 	
-	private final static long tlr_t_notify = 60 * 240;
+	private final static long tlr_t_notify = 60 * 60;
 	private final static double tlr_tau_preload = 30.0;
-	private final static double tlr_tau_reduce = 120.0;
+	private final static double tlr_tau_reduce = 90.0;
 
 	public static void main(String[] args) {
 //		test_DSC_load(true);
@@ -58,12 +58,12 @@ public class FridgeTest {
 				.getResults());
 		scd.addSeries("BaseController", bc.getFridge().getLoadCol()
 				.getResults());
-		// 2) DSC (load)
-		bc = run_DSC_load();
-		lcd.addSeries("Extension_DSC (load)", bc.getFridge().getTempCol()
-				.getResults());
-		scd.addSeries("Extension_DSC (load)", bc.getFridge().getLoadCol()
-				.getResults());
+//		// 2) DSC (load)
+//		bc = run_DSC_load();
+//		lcd.addSeries("Extension_DSC (load)", bc.getFridge().getTempCol()
+//				.getResults());
+//		scd.addSeries("Extension_DSC (load)", bc.getFridge().getLoadCol()
+//				.getResults());
 		// 3) DSC_stateful (load)
 		bc = run_DSC_load_stateful();
 		lcd.addSeries("Extension_DSC_stateful (load)", bc.getFridge()
@@ -76,12 +76,12 @@ public class FridgeTest {
 				.getTempCol().getResults());
 		scd.addSeries("Extension_DSC_stateful_fullwidth (load)", bc.getFridge()
 				.getLoadCol().getResults());
-		// 5) DSC_random (load
-		bc = run_DSC_load_random();
-		lcd.addSeries("Extension_DSC_random (load)", bc.getFridge()
-				.getTempCol().getResults());
-		scd.addSeries("Extension_DSC_random (load)", bc.getFridge()
-				.getLoadCol().getResults());
+//		// 5) DSC_random (load
+//		bc = run_DSC_load_random();
+//		lcd.addSeries("Extension_DSC_random (load)", bc.getFridge()
+//				.getTempCol().getResults());
+//		scd.addSeries("Extension_DSC_random (load)", bc.getFridge()
+//				.getLoadCol().getResults());
 
 		// Finish charts
 		lcd.create();
