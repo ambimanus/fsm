@@ -17,6 +17,7 @@ public class T_reduce_TO_intersectSCB extends Transition {
 	}
 
 	public boolean guard() {
-		return tlr.getTau_reduce() > tlr.getBc().getTauWarming();
+		return tlr.getTau_reduce() > tlr.getBc().getTauWarming() && !tlr.isBA()
+				&& !tlr.isCC1();
 	}
 }

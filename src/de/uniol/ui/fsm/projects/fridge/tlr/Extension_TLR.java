@@ -22,7 +22,10 @@ public class Extension_TLR extends FSM {
 	private double tau_c1;
 	private double T_activ;
 	private double T_max_act;
+	private double T_max_red;
 	private double T_allowed;
+	private boolean A = false;
+	private boolean C1 = false;
 	private boolean CC1 = false;
 	private boolean BA = false;
 
@@ -32,6 +35,8 @@ public class Extension_TLR extends FSM {
 	private State_intersectSCB intersectSCB;
 	private State_intersectSCC1 intersectSCC1;
 
+	private T_reduce_TO_idle_TActiv t_reduce_idle_activ;
+	private T_reduce_TO_idle_TMaxred t_reduce_idle_maxred;
 	private T_reduce_TO_intersectSBA t_reduce_ba;
 	private T_reduce_TO_intersectSCB t_reduce_cb;
 	private T_reduce_TO_intersectSCC1 t_reduce_cc1;
@@ -57,6 +62,8 @@ public class Extension_TLR extends FSM {
 		
 		T_default_TO_idle t_idle = new T_default_TO_idle(this, idle);
 		T_idle_TO_reduce t_reduce = new T_idle_TO_reduce(this, idle, reduce);
+		t_reduce_idle_activ = new T_reduce_TO_idle_TActiv(this, reduce, idle);
+		t_reduce_idle_maxred = new T_reduce_TO_idle_TMaxred(this, reduce, idle);
 		
 		t_reduce_ba = new T_reduce_TO_intersectSBA(this, reduce, intersectSBA);
 		t_reduce_cb = new T_reduce_TO_intersectSCB(this, reduce, intersectSCB);
@@ -263,11 +270,11 @@ public class Extension_TLR extends FSM {
 		}
 		double[] is = new double[2];
 		int code = Geometry.findLineSegmentIntersection(c, s, is);
-		if (code == 1) {
+		if (code == 1 || code == 0) {
 			return is[0] - now;
 		} else {
 			// No intersection found.
-			return -1;
+			return Double.NaN;
 		}
 	}
 
@@ -303,11 +310,11 @@ public class Extension_TLR extends FSM {
 		}
 		double[] is = new double[2];
 		int code = Geometry.findLineSegmentIntersection(c, s, is);
-		if (code == 1) {
+		if (code == 1 || code == 0) {
 			return is[0] - now;
 		} else {
 			// No intersection found.
-			return -1;
+			return Double.NaN;
 		}
 	}
 
@@ -340,11 +347,11 @@ public class Extension_TLR extends FSM {
 		}
 		double[] is = new double[2];
 		int code = Geometry.findLineSegmentIntersection(c, s, is);
-		if (code == 1) {
+		if (code == 1 || code == 0) {
 			return is[0] - now;
 		} else {
 			// No intersection found.
-			return -1;
+			return Double.NaN;
 		}
 	}
 
@@ -438,12 +445,36 @@ public class Extension_TLR extends FSM {
 		T_max_act = t_max_act;
 	}
 
+	public double getT_max_red() {
+		return T_max_red;
+	}
+
+	public void setT_max_red(double t_max_red) {
+		T_max_red = t_max_red;
+	}
+
 	public double getT_allowed() {
 		return T_allowed;
 	}
 
 	public void setT_allowed(double t_allowed) {
 		T_allowed = t_allowed;
+	}
+
+	public boolean isA() {
+		return A;
+	}
+
+	public void setA(boolean a) {
+		A = a;
+	}
+
+	public boolean isC1() {
+		return C1;
+	}
+
+	public void setC1(boolean c1) {
+		C1 = c1;
 	}
 
 	public boolean isCC1() {

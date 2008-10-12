@@ -45,7 +45,7 @@ public abstract class Transition implements SignalListener {
 			process = signal != null && signal.equals(name) && guard();
 		}
 		if (process) {
-//			if (fsm.getName().equals("TLR_extension_random"))
+//			if (fsm.getName().equals("Extension_TLR"))
 //			System.out.println("Time=" + fsm.getClock() + " - "
 //					+ this.getClass().getSimpleName() + " received Signal <"
 //					+ signal + "> from " + sender.getClass().getSimpleName()

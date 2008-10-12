@@ -16,6 +16,7 @@ public class State_intersectSCB extends State {
 		if (tlr.getTau_b() <= 0) {
 			double Tallowed = tlr.getBc().getTmax()
 					+ (tlr.getBc().ac() * (-tlr.getTau_b()));
+			tlr.setT_allowed(Tallowed);
 			double TCurrent = tlr.getBc().getFridge().getTemperature();
 			if (TCurrent <= Tallowed) {
 				tlr.setTau_gamma_scb(tlr.calculate_tau_gamma_scb());

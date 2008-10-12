@@ -12,20 +12,46 @@ public class State_reduce extends State {
 	}
 
 	protected void entryAction() {
+		boolean A = false;
+		boolean C1 = false;
 		boolean CC1 = false;
 		boolean BA = false;
+		double TCurrent = tlr.getBc().getFridge().getTemperature();
 		if (tlr.getTau_reduce() <= tlr.getBc().getTauWarming()) {
-			double tau_gamma_scc1 = tlr.calculate_tau_gamma_scc1();
-			tlr.setTau_gamma_scc1(tau_gamma_scc1);
-			CC1 = 0 <= tau_gamma_scc1 && tau_gamma_scc1 <= tlr.getTau_preload();
-			double tau_gamma_sba = tlr.calculate_tau_gamma_sba();
-			tlr.setTau_gamma_sba(tau_gamma_sba);
-			BA = 0 <= tau_gamma_sba && tau_gamma_sba <= tlr.getTau_preload();
-			if (CC1 && BA) {
-				CC1 = tau_gamma_scc1 < tau_gamma_sba;
-				BA = tau_gamma_sba <= tau_gamma_scc1;
+			tlr.setT_max_act(tlr.getBc().getTmin()
+					+ (tlr.getBc().aw() * (tlr.getBc().getTauWarming() - tlr
+							.getTau_reduce())));
+			tlr.setTau_a(tlr.getTau_preload()
+					- ((tlr.getT_max_act() - tlr.getBc().getTmax()) / tlr
+							.getBc().ac()));
+			double TAllowed_ba = tlr.getBc().getTmax()
+					+ (tlr.getBc().ac() * (-tlr.getTau_a()));
+			tlr.setTau_c1(tlr.getTau_preload() + tlr.getTau_reduce()
+					- tlr.getBc().getTauWarming());
+			double TAllowed_cc1 = tlr.getBc().getTmin()
+					+ (tlr.getBc().aw() * (-tlr.getTau_c1()));
+			if (tlr.getTau_a() <= 0 && TCurrent >= TAllowed_ba) {
+				A = true;
+				tlr.setT_activ(tlr.TAfter(true, tlr.getTau_preload(), TCurrent));
+			} else if (tlr.getTau_b() <= 0 && TCurrent <= TAllowed_cc1) {
+				C1 = true;
+				tlr.setT_max_red(tlr.TAfter(false, tlr.getTau_preload()
+						+ tlr.getTau_reduce(), TCurrent));
+			} else {
+				double tau_gamma_scc1 = tlr.calculate_tau_gamma_scc1();
+				tlr.setTau_gamma_scc1(tau_gamma_scc1);
+				CC1 = 0 <= tau_gamma_scc1 && tau_gamma_scc1 <= tlr.getTau_preload();
+				double tau_gamma_sba = tlr.calculate_tau_gamma_sba();
+				tlr.setTau_gamma_sba(tau_gamma_sba);
+				BA = 0 <= tau_gamma_sba && tau_gamma_sba <= tlr.getTau_preload();
+				if (CC1 && BA) {
+					CC1 = tau_gamma_scc1 < tau_gamma_sba;
+					BA = tau_gamma_sba <= tau_gamma_scc1;
+				}
 			}
 		}
+		tlr.setA(A);
+		tlr.setC1(C1);
 		tlr.setCC1(CC1);
 		tlr.setBA(BA);
 	}

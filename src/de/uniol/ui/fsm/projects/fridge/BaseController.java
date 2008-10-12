@@ -15,8 +15,8 @@ public class BaseController extends FSM {
 	private double Tdest;
 	private double tauSwitch;
 	private double counter;
-	private double tauCooling = 150;
-	private double tauWarming = 300;
+	private double tauCooling = 37.0;
+	private double tauWarming = 129.0;
 	
 	private State_cooling cooling;
 	private State_c_polling c_polling;
