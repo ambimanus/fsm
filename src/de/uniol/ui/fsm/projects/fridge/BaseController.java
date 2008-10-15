@@ -1,13 +1,16 @@
 package de.uniol.ui.fsm.projects.fridge;
 
 import de.uniol.ui.fsm.model.FSM;
+import de.uniol.ui.fsm.ui.TimeSeriesMultiMeanCollector;
 
 public class BaseController extends FSM {
 
+	private static int instance = 0;
+	
 	public final static String EV_COOLING = "ev_cooling";
 	public final static String EV_WARMING = "ev_warming";
 
-	private Fridge fridge = new Fridge(this, 5.5);
+	private Fridge fridge;
 	private double Tmin = 3.0;
 	private double Tmax = 8.0;
 
@@ -24,15 +27,23 @@ public class BaseController extends FSM {
 	private State_w_polling w_polling;
 
 	@SuppressWarnings("unused")
-	public BaseController() {
-		super("BaseController");
+	public BaseController(boolean startActive,
+			TimeSeriesMultiMeanCollector tempCol,
+			TimeSeriesMultiMeanCollector loadCol) {
+		super("BaseController" + instance++);
+		
+		this.fridge = new Fridge(this, 5.5, tempCol, loadCol);
 
 		cooling = new State_cooling(this);
 		c_polling = new State_c_polling(this, cooling);
 		warming = new State_warming(this);
 		w_polling = new State_w_polling(this, warming);
 
-		T_default_TO_cooling t_def = new T_default_TO_cooling(this, cooling);
+		if (startActive) {
+			T_default_TO_cooling t_def = new T_default_TO_cooling(this, cooling);
+		} else {
+			T_default_TO_warming t_def = new T_default_TO_warming(this, warming);
+		}
 
 		T_default_cooling_TO_c_polling t_def_c = new T_default_cooling_TO_c_polling(
 				this, cooling, c_polling);

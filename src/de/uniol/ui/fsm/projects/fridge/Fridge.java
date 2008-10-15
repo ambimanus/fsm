@@ -1,8 +1,9 @@
 package de.uniol.ui.fsm.projects.fridge;
 
+import simkit.random.RandomVariate;
 import de.uniol.ui.fsm.model.ClockListener;
 import de.uniol.ui.fsm.model.FSM;
-import de.uniol.ui.fsm.ui.TimeseriesCollector;
+import de.uniol.ui.fsm.ui.TimeSeriesMultiMeanCollector;
 
 public class Fridge implements ClockListener {
 
@@ -21,24 +22,25 @@ public class Fridge implements ClockListener {
 	protected double eta = 3.0;
 	/** system intertia, calculated value */
 	protected double eps; // = Math.exp(-(tau * a) / m_c)
-	
+
 	private boolean active = true;
 	private double currentClock = 0.0;
 	private double temperature = 0.0;
 	private FSM parent;
-	
-	private TimeseriesCollector tempCol;
-	private TimeseriesCollector loadCol;
-	
-	public Fridge(FSM parent, double initialTemperature) {
+
+	private TimeSeriesMultiMeanCollector tempCol;
+	private TimeSeriesMultiMeanCollector loadCol;
+
+	public Fridge(FSM parent, double initialTemperature,
+			TimeSeriesMultiMeanCollector tempCol,
+			TimeSeriesMultiMeanCollector loadCol) {
 		this.parent = parent;
 		this.parent.addClockListener(this);
 		this.temperature = initialTemperature;
-		
-		tempCol = new TimeseriesCollector("temperature");
-		loadCol = new TimeseriesCollector("load");
+		this.tempCol = tempCol;
+		this.loadCol = loadCol;
 	}
-	
+
 	public void clock(long clock) {
 		currentClock = clock;
 		// Calculate eps based on clock = 1Hz
@@ -47,35 +49,27 @@ public class Fridge implements ClockListener {
 		if (active) {
 			temperature = (eps * temperature)
 					+ ((1 - eps) * (t_surround - (eta * (q_cooling / a))));
-			loadCol.addObservation(currentClock / 60.0, q_cooling);
+			loadCol.newObservation(currentClock / 60.0, q_cooling);
 		} else {
 			temperature = (eps * temperature)
 					+ ((1 - eps) * (t_surround - (eta * (q_warming / a))));
-			loadCol.addObservation(currentClock / 60.0, q_warming);
+			loadCol.newObservation(currentClock / 60.0, q_warming);
 		}
-		tempCol.addObservation(currentClock / 60.0, temperature);
-//		System.out.println("Time=" + parent.getClock()
-//				+ " - Fridge temperature = " + temperature);
+		tempCol.newObservation(currentClock / 60.0, temperature);
+		// System.out.println("Time=" + parent.getClock()
+		// + " - Fridge temperature = " + temperature);
 	}
-	
+
 	public void enableCooling() {
 		active = true;
 	}
-	
+
 	public void disableCooling() {
 		active = false;
 	}
 
 	public double getTemperature() {
 		return temperature;
-	}
-
-	public TimeseriesCollector getTempCol() {
-		return tempCol;
-	}
-
-	public TimeseriesCollector getLoadCol() {
-		return loadCol;
 	}
 
 	public double getT_surround() {
@@ -132,5 +126,213 @@ public class Fridge implements ClockListener {
 
 	public boolean isActive() {
 		return active;
+	}
+
+	/*
+	 * Parameter variance util methods:
+	 */
+
+	/**
+	 * Performs a distribution of the parameter values using random numbers
+	 * produced sequentially by the given variate.
+	 */
+	public void variateAllSequential(RandomVariate rv, double t_min,
+			double t_max) {
+		variate_a(rv);
+		variate_eta(rv);
+		variate_mC(rv);
+		variate_tSurround(rv);
+		variate_temperature(rv, t_min, t_max);
+	}
+
+	/**
+	 * Performs a distribution of the parameter values using the first random
+	 * number produced by the given variate for all values.
+	 * 
+	 * @param rv
+	 */
+	public void variateAllParallel(RandomVariate rv, double t_min, double t_max) {
+		double var = rv.generate();
+		if (var < 0) {
+			var = 0;
+		}
+		a *= var;
+		if (a == 0.0) {
+			a = 0.001;
+		}
+		eta *= var;
+		m_c *= var;
+		if (m_c == 0.0) {
+			m_c = 0.001;
+		}
+		t_surround *= var;
+		temperature *= var;
+
+		if (temperature < t_min) {
+			temperature = t_min;
+		}
+		if (temperature > t_max) {
+			temperature = t_max;
+		}
+	}
+
+	/**
+	 * Performs a distribution of the parameter '<code>a</code>' using a random
+	 * number produced by the given variate.
+	 * 
+	 * @param rv
+	 */
+	public void variate_a(RandomVariate rv) {
+		double var = rv.generate();
+		if (var < 0) {
+			var = 0.001;
+		}
+		a *= var;
+	}
+
+	/**
+	 * Performs a distribution of the parameter '<code>eta</code>' using a
+	 * random number produced by the given variate.
+	 * 
+	 * @param rv
+	 */
+	public void variate_eta(RandomVariate rv) {
+		double var = rv.generate();
+		if (var < 0) {
+			var = 0;
+		}
+		eta *= var;
+	}
+
+	/**
+	 * Performs a distribution of the parameter '<code>m_c</code>' using a
+	 * random number produced by the given variate.
+	 * 
+	 * @param rv
+	 */
+	public void variate_mC(RandomVariate rv) {
+		double var = rv.generate();
+		if (var < 0) {
+			var = 0.001;
+		}
+		m_c *= var;
+	}
+
+	/**
+	 * Performs a distribution of the parameter '<code>t_surround</code>' using
+	 * a random number produced by the given variate.
+	 * 
+	 * @param rv
+	 */
+	public void variate_tSurround(RandomVariate rv) {
+		double var = rv.generate();
+		if (var < 0) {
+			var = 0;
+		}
+		t_surround *= var;
+	}
+
+	/**
+	 * Performs a distribution of the parameter '<code>t_current</code>' using a
+	 * random number produced by the given variate.
+	 * 
+	 * @param rv
+	 */
+	public void variate_temperature(RandomVariate rv, double t_min, double t_max) {
+		temperature *= rv.generate();
+		if (temperature < t_min) {
+			temperature = t_min;
+		}
+		if (temperature > t_max) {
+			temperature = t_max;
+		}
+	}
+
+	/**
+	 * Performs a distribution by setting the parameters to the values produced
+	 * by the given variate.
+	 * 
+	 * @param rv
+	 */
+	public void generateAllSequential(RandomVariate rv, double t_min,
+			double t_max) {
+		generate_a(rv);
+		generate_eta(rv);
+		generate_mC(rv);
+		generate_tSurround(rv);
+		generate_temperature(rv, t_min, t_max);
+	}
+
+	/**
+	 * Performs a distribution of the parameter '<code>a</code>' by setting it
+	 * to the value produced next by the given variate.
+	 * 
+	 * @param rv
+	 */
+	public void generate_a(RandomVariate rv) {
+		double var = rv.generate();
+		if (var < 0) {
+			var = 0.001;
+		}
+		a = var;
+	}
+
+	/**
+	 * Performs a distribution of the parameter '<code>eta</code>' by setting it
+	 * to the value produced next by the given variate.
+	 * 
+	 * @param rv
+	 */
+	public void generate_eta(RandomVariate rv) {
+		double var = rv.generate();
+		if (var < 0) {
+			var = 0;
+		}
+		eta = var;
+	}
+
+	/**
+	 * Performs a distribution of the parameter '<code>m_c</code>' by setting it
+	 * to the value produced next by the given variate.
+	 * 
+	 * @param rv
+	 */
+	public void generate_mC(RandomVariate rv) {
+		double var = rv.generate();
+		if (var < 0) {
+			var = 0.001;
+		}
+		m_c = var;
+	}
+
+	/**
+	 * Performs a distribution of the parameter '<code>t_surround</code>' by
+	 * setting it to the value produced next by the given variate.
+	 * 
+	 * @param rv
+	 */
+	public void generate_tSurround(RandomVariate rv) {
+		double var = rv.generate();
+		if (var < 0) {
+			var = 0;
+		}
+		t_surround = var;
+	}
+
+	/**
+	 * Performs a distribution of the parameter '<code>t_current</code>' by
+	 * setting it to the value produced next by the given variate.
+	 * 
+	 * @param rv
+	 */
+	public void generate_temperature(RandomVariate rv, double t_min,
+			double t_max) {
+		temperature = rv.generate();
+		if (temperature < t_min) {
+			temperature = t_min;
+		}
+		if (temperature > t_max) {
+			temperature = t_max;
+		}
 	}
 }

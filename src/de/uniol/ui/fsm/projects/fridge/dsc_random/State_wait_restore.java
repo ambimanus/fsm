@@ -14,9 +14,8 @@ public class State_wait_restore extends State {
 	protected void entryAction() {
 		dsc.setTau_restore(60L * Math.round(dsc.getBc().getTauCooling()
 				+ dsc.getBc().getTauWarming()));
-		dsc.setT_dest(dsc.getBc().getTmin()
-				+ (Math.random() * (dsc.getBc().getTmax() - dsc.getBc()
-						.getTmin())));
+		dsc.setT_dest(dsc.drawUniformRandom(dsc.getBc().getTmin(), dsc.getBc()
+				.getTmax()));
 	}
 
 	protected void exitAction() {
