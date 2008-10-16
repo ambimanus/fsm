@@ -30,22 +30,22 @@ import de.uniol.ui.fsm.ui.TimeSeriesMultiMeanCollector;
 public class MultipleFridgeTest {
 
 	/** Simulation length */
-	private final static long steps = 60 * 60 * 8;
+	private final static long steps = 60 * 60 * 15;
 	/** Simulation speed, min=1, max=1000 */
 	private final static double speed = 1000.0;
 	
-	private final static long dsc_load = 60 * 90;
-	private final static long dsc_unload = 60 * 90;
-	private final static double dsc_spread = 0.0;
+	private final static long dsc_load = 60 * 240;
+	private final static long dsc_unload = 60 * 240;
+	private final static double dsc_spread = 10.0;
 
-	private final static long tlr_t_notify = 60 * 90;
+	private final static long tlr_t_notify = 60 * 240;
 	private final static double tlr_tau_preload = 30.0;
 	private final static double tlr_tau_reduce = 90.0;
 
 	public static void main(String[] args) {
-		test_DSC_load(true);
+//		test_DSC_load(true);
 //		test_DSC_unload(true);
-//		test_TLR(true);
+		test_TLR(true);
 	}
 	
 	private static void test_DSC_load(boolean block) {
@@ -168,10 +168,10 @@ public class MultipleFridgeTest {
 		// Fill charts
 		Configuration conf = new Configuration();
 		TimeSeriesMultiMeanCollector[] results;
-		// 1) BaseController
-		results = run_Base(conf);
-		lcd.addSeries("BaseController", results[0].getResults());
-		scd.addSeries("BaseController", results[1].getResults());
+//		// 1) BaseController
+//		results = run_Base(conf);
+//		lcd.addSeries("BaseController", results[0].getResults());
+//		scd.addSeries("BaseController", results[1].getResults());
 		// 2) Extension_TLR
 		results = run_TLR(conf);
 		lcd.addSeries("Extension_TLR", results[0].getResults());
