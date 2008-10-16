@@ -1,5 +1,8 @@
 package de.uniol.ui.fsm.projects.fridge.tlr_extension_random;
 
+import simkit.random.BernoulliVariate;
+import simkit.random.RandomVariate;
+import simkit.random.UniformVariate;
 import de.uniol.ui.fsm.model.FSM;
 import de.uniol.ui.fsm.projects.fridge.BaseController;
 import de.uniol.ui.fsm.projects.fridge.tlr.Extension_TLR;
@@ -14,6 +17,11 @@ public class TLR_extension_random extends FSM {
 
 	private Extension_TLR tlr;
 	private BaseController bc;
+	private static RandomVariate uniform;
+	private double lastLow = Double.NaN;
+	private double lastHigh = Double.NaN;
+	private static RandomVariate bernoulli;
+	private double lastPropability = Double.NaN;
 	
 	private double tau_preload;
 	private double tau_reduce;
@@ -26,6 +34,13 @@ public class TLR_extension_random extends FSM {
 		super("TLR_extension_random");
 		this.tlr = tlr;
 		this.bc = tlr.getBc();
+		
+		if (uniform == null) {
+			uniform = new UniformVariate();
+		}
+		if (bernoulli == null) {
+			bernoulli = new BernoulliVariate();
+		}
 
 		State_idle idle = new State_idle(this);
 		State_wait_restore wait_restore = new State_wait_restore(this);
@@ -40,6 +55,23 @@ public class TLR_extension_random extends FSM {
 				wait_restore, idle);
 		t_warming = new T_wait_restore_TO_idle_warming(this,
 				wait_restore, idle);
+	}
+	
+	public double drawUniformRandom(double low, double high) {
+		if (lastLow != low || lastHigh != high) {
+			uniform.setParameters(low, high);
+			lastLow = low;
+			lastHigh = high;
+		}
+		return uniform.generate();
+	}
+	
+	protected double drawBernoulli(double propability) {
+		if (lastPropability != propability) {
+			bernoulli.setParameters(propability);
+			lastPropability = propability;
+		}
+		return bernoulli.generate();
 	}
 
 	public BaseController getBc() {

@@ -12,9 +12,8 @@ public class State_wait_restore extends State {
 	}
 
 	protected void entryAction() {
-		ext.setTDest(ext.getBc().getTmin()
-				+ (Math.random() * (ext.getBc().getTmax() - ext.getBc()
-						.getTmin())));
+		ext.setTDest(ext.drawUniformRandom(ext.getBc().getTmin(), ext.getBc()
+				.getTmax()));
 	}
 
 	protected void exitAction() {

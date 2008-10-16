@@ -93,8 +93,8 @@ public class Extension_DSC_random extends FSM {
 
 	public void setDelay(long delay) {
 		this.delay = delay;
-		t_wait_load.setWaitDelay(delay);
-		t_wait_unload.setWaitDelay(delay);
+		t_wait_load.setWaitDelay(60L * delay);
+		t_wait_unload.setWaitDelay(60L * delay);
 	}
 
 	public double getT_dest() {

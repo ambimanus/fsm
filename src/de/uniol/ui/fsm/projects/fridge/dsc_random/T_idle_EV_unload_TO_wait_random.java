@@ -1,7 +1,5 @@
 package de.uniol.ui.fsm.projects.fridge.dsc_random;
 
-import java.util.Random;
-
 import de.uniol.ui.fsm.model.transitions.Transition;
 
 public class T_idle_EV_unload_TO_wait_random extends Transition {
@@ -16,8 +14,8 @@ public class T_idle_EV_unload_TO_wait_random extends Transition {
 
 	public void action(Object... params) {
 		dsc.setDoUnload(true);
-		dsc.setDelay(new Random()
-				.nextInt((int) Math.round((Double) params[0]) + 1));
+		dsc.setDelay(Math.round(dsc.drawUniformRandom(0.0,
+				(Double) params[0])));
 	}
 
 	public boolean guard() {

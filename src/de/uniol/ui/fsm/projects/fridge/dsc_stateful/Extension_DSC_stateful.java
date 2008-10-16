@@ -1,5 +1,8 @@
 package de.uniol.ui.fsm.projects.fridge.dsc_stateful;
 
+import simkit.random.BernoulliVariate;
+import simkit.random.RandomVariate;
+import simkit.random.UniformVariate;
 import de.uniol.ui.fsm.model.FSM;
 import de.uniol.ui.fsm.projects.fridge.BaseController;
 
@@ -9,6 +12,11 @@ public class Extension_DSC_stateful extends FSM {
 	public final static String EV_UNLOAD = "ev_unload";
 
 	private BaseController bc;
+	private static RandomVariate uniform;
+	private double lastLow = Double.NaN;
+	private double lastHigh = Double.NaN;
+	private static RandomVariate bernoulli;
+	private double lastPropability = Double.NaN;
 	private boolean doUnload = false;
 	private long delay;
 	private double T_crossing;
@@ -26,6 +34,13 @@ public class Extension_DSC_stateful extends FSM {
 	public Extension_DSC_stateful(BaseController bc) {
 		super("Extension_DSC_stateful");
 		this.bc = bc;
+		
+		if (uniform == null) {
+			uniform = new UniformVariate();
+		}
+		if (bernoulli == null) {
+			bernoulli = new BernoulliVariate();
+		}
 
 		idle = new State_idle(this);
 		wait_random = new State_wait_random(this);
@@ -46,6 +61,23 @@ public class Extension_DSC_stateful extends FSM {
 		t_restore_unload = new T_wait_restore_EV_unload_TO_idle(this,
 				wait_restore, idle);
 	}
+	
+	public double drawUniformRandom(double low, double high) {
+		if (lastLow != low || lastHigh != high) {
+			uniform.setParameters(low, high);
+			lastLow = low;
+			lastHigh = high;
+		}
+		return uniform.generate();
+	}
+	
+	protected double drawBernoulli(double propability) {
+		if (lastPropability != propability) {
+			bernoulli.setParameters(propability);
+			lastPropability = propability;
+		}
+		return bernoulli.generate();
+	}
 
 	public boolean isDoUnload() {
 		return doUnload;
@@ -61,8 +93,8 @@ public class Extension_DSC_stateful extends FSM {
 
 	public void setDelay(long delay) {
 		this.delay = delay;
-		t_wait_load.setWaitDelay(delay);
-		t_wait_unload.setWaitDelay(delay);
+		t_wait_load.setWaitDelay(60L * delay);
+		t_wait_unload.setWaitDelay(60L * delay);
 	}
 
 	public double getT_crossing() {
