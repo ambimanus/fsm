@@ -12,8 +12,22 @@ public class State_wait_restore extends State {
 	}
 
 	protected void entryAction() {
+//		if (dsc.isDoUnload()) {
+//			dsc.setTau_restore(60L * Math.round(dsc.getBc().tau_reqw(
+//					dsc.getBc().getFridge().getTemperature(),
+//					dsc.getBc().getTmax())));
+//		} else {
+//			dsc.setTau_restore(60L * Math.round(dsc.getBc().tau_reqc(
+//					dsc.getBc().getFridge().getTemperature(),
+//					dsc.getBc().getTmin())));
+//		}
 		dsc.setTau_restore(60L * Math.round(dsc.getBc().getTauCooling()
 				+ dsc.getBc().getTauWarming()));
+//		if (dsc.drawBernoulli(0.5) != 0.0) {
+//			dsc.setT_dest(dsc.getBc().getTmin());
+//		} else {
+//			dsc.setT_dest(dsc.getBc().getTmax());
+//		}
 		dsc.setT_dest(dsc.drawUniformRandom(dsc.getBc().getTmin(), dsc.getBc()
 				.getTmax()));
 	}

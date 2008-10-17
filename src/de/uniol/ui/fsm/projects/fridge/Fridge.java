@@ -21,7 +21,7 @@ public class Fridge implements ClockListener {
 	/** efficiency */
 	protected double eta = 3.0;
 	/** system intertia, calculated value */
-	protected double eps; // = Math.exp(-(tau * a) / m_c)
+	protected double eps = Double.NaN; // = Math.exp(-(tau * a) / m_c)
 
 	private boolean active = true;
 	private double currentClock = 0.0;
@@ -44,7 +44,9 @@ public class Fridge implements ClockListener {
 	public void clock(long clock) {
 		currentClock = clock;
 		// Calculate eps based on clock = 1Hz
-		eps = Math.exp(-(1.0 / 3600.0) * (a / m_c));
+		if (Double.isNaN(eps)) {
+			eps = Math.exp(-(1.0 / 3600.0) * (a / m_c));
+		}
 		// Update current temperature
 		if (active) {
 			temperature = (eps * temperature)

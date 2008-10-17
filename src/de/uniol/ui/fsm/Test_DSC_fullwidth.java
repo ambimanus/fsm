@@ -15,7 +15,9 @@ import simkit.random.UniformVariate;
 import de.uniol.ui.fsm.projects.fridge.BaseController;
 import de.uniol.ui.fsm.projects.fridge.Configuration;
 import de.uniol.ui.fsm.projects.fridge.Fridge;
+import de.uniol.ui.fsm.projects.fridge.Configuration.VARIATE;
 import de.uniol.ui.fsm.projects.fridge.dsc.Extension_DSC;
+import de.uniol.ui.fsm.projects.fridge.dsc_random.Extension_DSC_random;
 import de.uniol.ui.fsm.projects.fridge.dsc_stateful_fullwidth.Extension_DSC_stateful_fullwidth;
 import de.uniol.ui.fsm.ui.LineChartDialog;
 import de.uniol.ui.fsm.ui.ProgressComposite;
@@ -27,7 +29,7 @@ public class Test_DSC_fullwidth {
 	/** Simulation length */
 	private final static long steps = 60 * 60 * 20;
 	
-	private static long dsc_load = 60 * 360;
+	private static long dsc_load = 60 * 330;
 	private final static double dsc_spread = 0.0;
 	
 	public static void main(String[] args) {
@@ -46,12 +48,12 @@ public class Test_DSC_fullwidth {
 		// Fill charts
 		Configuration conf = new Configuration();
 		conf.POPULATION_SIZE = 1;
-//		conf.variate_A = VARIATE.NONE;
-//		conf.variate_eta = VARIATE.NONE;
-//		conf.variate_mc = VARIATE.NONE;
-//		conf.variate_TO = VARIATE.NONE;
-//		conf.variate_Tcurrent = VARIATE.NONE;
-//		conf.ACTIVE_AT_START_PROPABILITY  = 1.0;
+		conf.variate_A = VARIATE.NONE;
+		conf.variate_eta = VARIATE.NONE;
+		conf.variate_mc = VARIATE.NONE;
+		conf.variate_TO = VARIATE.NONE;
+		conf.variate_Tcurrent = VARIATE.NONE;
+		conf.ACTIVE_AT_START_PROPABILITY  = 1.0;
 		TimeSeriesMultiMeanCollector[] results;
 //		// 1) Base
 //		results = run_Base(conf);
@@ -59,29 +61,49 @@ public class Test_DSC_fullwidth {
 //		scd.addSeries("base", results[1].getResults());
 		// 0) DSC-stateful-full-30
 //		dsc_load = 60 * 30;
-		results = run_DSC_load_stateful_full(conf);
-		lcd.addSeries("stateful_full_(0)", results[0].getResults());
-		scd.addSeries("stateful_full_(0)", results[1].getResults());
+//		results = run_DSC_load_stateful_full(conf);
+		results = run_DSC_unload_random(conf);
+		lcd.addSeries("stateful_random(0)", results[0].getResults());
+		scd.addSeries("stateful_random(0)", results[1].getResults());
 		// 2) DSC-stateful-full-30
 //		dsc_load = 60 * 30;
-		results = run_DSC_load_stateful_full(conf);
-		lcd.addSeries("stateful_full_(1)", results[0].getResults());
-		scd.addSeries("stateful_full_(1)", results[1].getResults());
+//		results = run_DSC_load_stateful_full(conf);
+		results = run_DSC_unload_random(conf);
+		lcd.addSeries("stateful_random(1)", results[0].getResults());
+		scd.addSeries("stateful_random(1)", results[1].getResults());
 		// 3) DSC-stateful-full-60
 //		dsc_load = 60 * 60;
-		results = run_DSC_load_stateful_full(conf);
-		lcd.addSeries("stateful_full_(2)", results[0].getResults());
-		scd.addSeries("stateful_full_(2)", results[1].getResults());
+//		results = run_DSC_load_stateful_full(conf);
+		results = run_DSC_unload_random(conf);
+		lcd.addSeries("stateful_random(2)", results[0].getResults());
+		scd.addSeries("stateful_random(2)", results[1].getResults());
 		// 4) DSC-stateful-full-90
 //		dsc_load = 60 * 90;
-		results = run_DSC_load_stateful_full(conf);
-		lcd.addSeries("stateful_full_(3)", results[0].getResults());
-		scd.addSeries("stateful_full_(3)", results[1].getResults());
+//		results = run_DSC_load_stateful_full(conf);
+		results = run_DSC_unload_random(conf);
+		lcd.addSeries("stateful_random(3)", results[0].getResults());
+		scd.addSeries("stateful_random(3)", results[1].getResults());
 		// 5) DSC-stateful-full-120
 //		dsc_load = 60 * 120;
-		results = run_DSC_load_stateful_full(conf);
-		lcd.addSeries("stateful_full_(4)", results[0].getResults());
-		scd.addSeries("stateful_full_(4)", results[1].getResults());
+//		results = run_DSC_load_stateful_full(conf);
+		results = run_DSC_unload_random(conf);
+		lcd.addSeries("stateful_random(4)", results[0].getResults());
+		scd.addSeries("stateful_random(4)", results[1].getResults());
+//		results = run_DSC_unload_random(conf);
+//		lcd.addSeries("stateful_random(5)", results[0].getResults());
+//		scd.addSeries("stateful_random(5)", results[1].getResults());
+//		results = run_DSC_unload_random(conf);
+//		lcd.addSeries("stateful_random(6)", results[0].getResults());
+//		scd.addSeries("stateful_random(6)", results[1].getResults());
+//		results = run_DSC_unload_random(conf);
+//		lcd.addSeries("stateful_random(7)", results[0].getResults());
+//		scd.addSeries("stateful_random(7)", results[1].getResults());
+//		results = run_DSC_unload_random(conf);
+//		lcd.addSeries("stateful_random(8)", results[0].getResults());
+//		scd.addSeries("stateful_random(8)", results[1].getResults());
+//		results = run_DSC_unload_random(conf);
+//		lcd.addSeries("stateful_random(9)", results[0].getResults());
+//		scd.addSeries("stateful_random(9)", results[1].getResults());
 
 		// Finish charts
 		lcd.create();
@@ -147,6 +169,49 @@ public class Test_DSC_fullwidth {
 						dsc.clock();
 						if (l == dsc_load) {
 							dsc.signal(Extension_DSC.EV_LOAD, dsc.getIdle(),
+									dsc_spread);
+							dsc.dispatchSignals(dsc.getIdle());
+						}
+					}
+
+					pc.setProgress((int) ((l + 1L) * 100L / steps));
+				}
+			}
+		};
+		long start = System.currentTimeMillis();
+		sim.start();
+		pc.open();
+		long dur = System.currentTimeMillis() - start;
+		long min = dur / 60000l;
+		long sec = (dur % 60000l) / 1000l;
+		long ms = (dur % 60000l) % 1000l;
+		System.out.println(steps + " steps finished in " + min + "m" + sec
+				+ "s" + ms + "ms");
+
+		return new TimeSeriesMultiMeanCollector[] { tempCol, loadCol };
+	}
+	
+	private static TimeSeriesMultiMeanCollector[] run_DSC_unload_random(
+			Configuration conf) {
+		TimeSeriesMultiMeanCollector tempCol = new TimeSeriesMultiMeanCollector();
+		TimeSeriesMultiMeanCollector loadCol = new TimeSeriesMultiMeanCollector();
+		final ArrayList<BaseController> bcs = createBaseControllers(conf,
+				tempCol, loadCol);
+		final ArrayList<Extension_DSC_random> dscs = new ArrayList<Extension_DSC_random>();
+		for (BaseController bc : bcs) {
+			dscs.add(new Extension_DSC_random(bc));
+		}
+		final ProgressComposite pc = new ProgressComposite();
+		Thread sim = new Thread() {
+			public void run() {
+				for (long l = 0L; l < steps; l++) {
+					for (BaseController bc : bcs) {
+						bc.clock();
+					}
+					for (Extension_DSC_random dsc : dscs) {
+						dsc.clock();
+						if (l == dsc_load) {
+							dsc.signal(Extension_DSC.EV_UNLOAD, dsc.getIdle(),
 									dsc_spread);
 							dsc.dispatchSignals(dsc.getIdle());
 						}

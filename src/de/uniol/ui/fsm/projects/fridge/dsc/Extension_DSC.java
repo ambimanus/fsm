@@ -1,6 +1,7 @@
 package de.uniol.ui.fsm.projects.fridge.dsc;
 
 import simkit.random.BernoulliVariate;
+import simkit.random.Congruential;
 import simkit.random.RandomVariate;
 import simkit.random.UniformVariate;
 import de.uniol.ui.fsm.model.FSM;
@@ -32,6 +33,9 @@ public class Extension_DSC extends FSM {
 		
 		if (uniform == null) {
 			uniform = new UniformVariate();
+			Congruential cong = new Congruential();
+			cong.setSeed(Math.round(Math.random() * 100000000.0));
+			uniform.setRandomNumber(cong);
 		}
 		if (bernoulli == null) {
 			bernoulli = new BernoulliVariate();

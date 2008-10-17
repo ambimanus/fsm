@@ -30,15 +30,12 @@ import de.uniol.ui.fsm.ui.TimeSeriesMultiMeanCollector;
 public class MultipleFridgeTest {
 
 	/** Simulation length */
-	private final static long steps = 60 * 60 * 15;
-	/** Simulation speed, min=1, max=1000 */
-	private final static double speed = 1000.0;
+	private final static long steps = 60 * 60 * 20;
 	
-	private final static long dsc_load = 60 * 240;
-	private final static long dsc_unload = 60 * 240;
+	private final static long dsc_load = 60 * 360;
 	private final static double dsc_spread = 10.0;
 
-	private final static long tlr_t_notify = 60 * 240;
+	private final static long tlr_t_notify = 60 * 360;
 	private final static double tlr_tau_preload = 30.0;
 	private final static double tlr_tau_reduce = 90.0;
 
@@ -115,6 +112,13 @@ public class MultipleFridgeTest {
 
 		// Fill charts
 		Configuration conf = new Configuration();
+//		conf.POPULATION_SIZE = 1;
+//		conf.variate_A = VARIATE.NONE;
+//		conf.variate_eta = VARIATE.NONE;
+//		conf.variate_mc = VARIATE.NONE;
+//		conf.variate_TO = VARIATE.NONE;
+//		conf.variate_Tcurrent = VARIATE.NONE;
+//		conf.ACTIVE_AT_START_PROPABILITY  = 0.22;
 		TimeSeriesMultiMeanCollector[] results;
 //		// 1) BaseController
 //		results = run_Base(conf);
@@ -214,14 +218,6 @@ public class MultipleFridgeTest {
 					}
 					
 					pc.setProgress((int) ((l + 1L) * 100L / steps));
-
-					// Delay
-					if (speed < 1000.0 && speed >= 1.0) {
-						try {
-							Thread.sleep(Math.round(1000.0 / speed));
-						} catch (InterruptedException e) {
-						}
-					}
 				}
 			}
 		};
@@ -264,14 +260,6 @@ public class MultipleFridgeTest {
 					}
 					
 					pc.setProgress((int) ((l + 1L) * 100L / steps));
-
-					// Delay
-					if (speed < 1000.0 && speed >= 1.0) {
-						try {
-							Thread.sleep(Math.round(1000.0 / speed));
-						} catch (InterruptedException e) {
-						}
-					}
 				}
 			}
 		};
@@ -315,14 +303,6 @@ public class MultipleFridgeTest {
 					}
 
 					pc.setProgress((int) ((l + 1L) * 100L / steps));
-
-					// Delay
-					if (speed < 1000.0 && speed >= 1.0) {
-						try {
-							Thread.sleep(Math.round(1000.0 / speed));
-						} catch (InterruptedException e) {
-						}
-					}
 				}
 			}
 		};
@@ -366,14 +346,6 @@ public class MultipleFridgeTest {
 					}
 
 					pc.setProgress((int) ((l + 1L) * 100L / steps));
-
-					// Delay
-					if (speed < 1000.0 && speed >= 1.0) {
-						try {
-							Thread.sleep(Math.round(1000.0 / speed));
-						} catch (InterruptedException e) {
-						}
-					}
 				}
 			}
 		};
@@ -417,14 +389,6 @@ public class MultipleFridgeTest {
 					}
 
 					pc.setProgress((int) ((l + 1L) * 100L / steps));
-
-					// Delay
-					if (speed < 1000.0 && speed >= 1.0) {
-						try {
-							Thread.sleep(Math.round(1000.0 / speed));
-						} catch (InterruptedException e) {
-						}
-					}
 				}
 			}
 		};
@@ -467,14 +431,6 @@ public class MultipleFridgeTest {
 					}
 					
 					pc.setProgress((int) ((l + 1L) * 100L / steps));
-
-					// Delay
-					if (speed < 1000.0 && speed >= 1.0) {
-						try {
-							Thread.sleep(Math.round(1000.0 / speed));
-						} catch (InterruptedException e) {
-						}
-					}
 				}
 			}
 		};
@@ -518,14 +474,6 @@ public class MultipleFridgeTest {
 					}
 
 					pc.setProgress((int) ((l + 1L) * 100L / steps));
-
-					// Delay
-					if (speed < 1000.0 && speed >= 1.0) {
-						try {
-							Thread.sleep(Math.round(1000.0 / speed));
-						} catch (InterruptedException e) {
-						}
-					}
 				}
 			}
 		};
@@ -569,14 +517,6 @@ public class MultipleFridgeTest {
 					}
 
 					pc.setProgress((int) ((l + 1L) * 100L / steps));
-
-					// Delay
-					if (speed < 1000.0 && speed >= 1.0) {
-						try {
-							Thread.sleep(Math.round(1000.0 / speed));
-						} catch (InterruptedException e) {
-						}
-					}
 				}
 			}
 		};
@@ -620,14 +560,6 @@ public class MultipleFridgeTest {
 					}
 
 					pc.setProgress((int) ((l + 1L) * 100L / steps));
-
-					// Delay
-					if (speed < 1000.0 && speed >= 1.0) {
-						try {
-							Thread.sleep(Math.round(1000.0 / speed));
-						} catch (InterruptedException e) {
-						}
-					}
 				}
 			}
 		};
@@ -670,14 +602,6 @@ public class MultipleFridgeTest {
 					}
 					
 					pc.setProgress((int) ((l + 1L) * 100L / steps));
-
-					// Delay
-					if (speed < 1000.0 && speed >= 1.0) {
-						try {
-							Thread.sleep(Math.round(1000.0 / speed));
-						} catch (InterruptedException e) {
-						}
-					}
 				}
 			}
 		};
@@ -726,14 +650,6 @@ public class MultipleFridgeTest {
 					}
 					
 					pc.setProgress((int) ((l + 1L) * 100L / steps));
-
-					// Delay
-					if (speed < 1000.0 && speed >= 1.0) {
-						try {
-							Thread.sleep(Math.round(1000.0 / speed));
-						} catch (InterruptedException e) {
-						}
-					}
 				}
 			}
 		};
@@ -782,14 +698,6 @@ public class MultipleFridgeTest {
 					}
 					
 					pc.setProgress((int) ((l + 1L) * 100L / steps));
-
-					// Delay
-					if (speed < 1000.0 && speed >= 1.0) {
-						try {
-							Thread.sleep(Math.round(1000.0 / speed));
-						} catch (InterruptedException e) {
-						}
-					}
 				}
 			}
 		};

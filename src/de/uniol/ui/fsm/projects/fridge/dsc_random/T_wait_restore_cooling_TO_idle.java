@@ -15,7 +15,7 @@ public class T_wait_restore_cooling_TO_idle extends TimerTransition {
 
 	public void action(Object... params) {
 		dsc.getBc().signal(BaseController.EV_COOLING,
-				dsc.getBc().getC_polling(), dsc.getT_dest());
+				dsc.getBc().getW_polling(), dsc.getT_dest());
 	}
 
 	public boolean guard() {
