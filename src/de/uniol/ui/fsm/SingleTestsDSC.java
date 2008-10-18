@@ -24,7 +24,7 @@ import de.uniol.ui.fsm.ui.ProgressComposite;
 import de.uniol.ui.fsm.ui.StepChartDialog;
 import de.uniol.ui.fsm.ui.TimeSeriesMultiMeanCollector;
 
-public class Test_DSC_fullwidth {
+public class SingleTestsDSC {
 
 	/** Simulation length */
 	private final static long steps = 60 * 60 * 20;
