@@ -16,9 +16,8 @@ public class T_idle_TO_wait_restore extends Transition {
 	public void action(Object... params) {
 		ext.setTau_preload((Double) params[0]);
 		ext.setTau_reduce((Double) params[1]);
-		double delay = ext.getTau_preload() + ext.getBc().getTauCooling()
-				+ ext.getBc().getTauWarming();
-		long tau = Math.round(60.0 * delay);
+		long tau = Math.round(60.0 * (ext.getTau_preload() + ext
+				.getTau_reduce()));
 		ext.getT_cooling().setWaitDelay(tau);
 		ext.getT_warming().setWaitDelay(tau);
 	}
