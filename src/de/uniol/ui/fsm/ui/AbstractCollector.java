@@ -4,7 +4,9 @@ package de.uniol.ui.fsm.ui;
  * This abstract class defines base methods which must be implemented by all
  * statistical collectors in this software.
  * 
- * @author Chh
+ * @author <a href=
+ *         "mailto:Christian%20Hinrichs%20%3Cchristian.hinrichs@uni-oldenburg.de%3E"
+ *         >Christian Hinrichs, christian.hinrichs@uni-oldenburg.de</a>
  */
 public abstract class AbstractCollector {
 	

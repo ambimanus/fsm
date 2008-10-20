@@ -5,13 +5,28 @@ import de.uniol.ui.fsm.model.ClockListener;
 import de.uniol.ui.fsm.model.FSM;
 import de.uniol.ui.fsm.model.states.State;
 
+/**
+ * This is a timer transition. It may not listen to a specific signal, but
+ * rather will be activated upon activation of the source state. A counter is
+ * then initiated which counts a predefined number of clocks. If the counter is
+ * finished, and the state is still active, the transition will be taken.
+ * 
+ * @author <a href=
+ *         "mailto:Christian%20Hinrichs%20%3Cchristian.hinrichs@uni-oldenburg.de%3E"
+ *         >Christian Hinrichs, christian.hinrichs@uni-oldenburg.de</a>
+ * 
+ */
 public abstract class TimerTransition extends Transition implements
 		ClockListener, ActivationListener {
 
+	/** Signal string which identifies the timer signal */
 	protected final static String EV_TM = "tm";
 	
+	/** whether we are active and waiting for execution */
 	private boolean waiting = false;
+	/** start time when we were activated */
 	private long waitStart = 0L;
+	/** delay we have to wait before execution */
 	private long waitDelay = 0L;
 	
 	public TimerTransition(FSM parent, State source, State dest, long delay) {
@@ -28,11 +43,17 @@ public abstract class TimerTransition extends Transition implements
 		}
 	}
 	
+	/**
+	 * Starts the timer
+	 */
 	protected void tm() {
 		waitStart = getFsm().getClock();
 		waiting = true;
 	}
 	
+	/**
+	 * Cancels the timer
+	 */
 	protected void cancel() {
 		waiting = false;
 		waitStart = 0L;
@@ -42,6 +63,13 @@ public abstract class TimerTransition extends Transition implements
 		return waiting;
 	}
 
+	/**
+	 * This will be called when the source state's activation changes. If the
+	 * state becomes active, the timer will be started, and cancelled otherwise.
+	 * 
+	 * @param active
+	 * @param sender
+	 */
 	public void activationChanged(boolean active, Object sender) {
 		if (sender == getSource()) {
 			if (active) {

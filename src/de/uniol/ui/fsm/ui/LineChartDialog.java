@@ -29,7 +29,9 @@ import org.jfree.ui.RectangleInsets;
  * This class shows a line chart. That is a chart which connects all given data
  * points with straight lines.
  * 
- * @author Chh
+ * @author <a href=
+ *         "mailto:Christian%20Hinrichs%20%3Cchristian.hinrichs@uni-oldenburg.de%3E"
+ *         >Christian Hinrichs, christian.hinrichs@uni-oldenburg.de</a>
  */
 public class LineChartDialog extends Dialog {
 	

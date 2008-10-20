@@ -3,7 +3,9 @@ package de.uniol.ui.fsm.util;
 /**
  * Helper class which represents a line segment.
  * 
- * @author Chh
+ * @author <a href=
+ *         "mailto:Christian%20Hinrichs%20%3Cchristian.hinrichs@uni-oldenburg.de%3E"
+ *         >Christian Hinrichs, christian.hinrichs@uni-oldenburg.de</a>
  */
 public class Line {
 	public double x1;

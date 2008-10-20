@@ -5,6 +5,18 @@ import de.uniol.ui.fsm.model.ClockListener;
 import de.uniol.ui.fsm.model.FSM;
 import de.uniol.ui.fsm.ui.TimeSeriesMultiMeanCollector;
 
+/**
+ * This class represents a virtual fridge. It contains device parameters and
+ * statistical collectors. Will be notified upon system clock changes to be able
+ * to update the internal temperature, based on the current load. The load will
+ * be updated based on the <code>active</code> field, wich will be set set upon
+ * external calls to {@link #enableCooling()} or {@link #disableCooling()}.
+ * 
+ * @author <a href=
+ *         "mailto:Christian%20Hinrichs%20%3Cchristian.hinrichs@uni-oldenburg.de%3E"
+ *         >Christian Hinrichs, christian.hinrichs@uni-oldenburg.de</a>
+ * 
+ */
 public class Fridge implements ClockListener {
 
 	/* device parameters */
@@ -23,12 +35,18 @@ public class Fridge implements ClockListener {
 	/** system intertia, calculated value */
 	protected double eps = Double.NaN; // = Math.exp(-(tau * a) / m_c)
 
+	/** defines the current phase: cooling/warming */
 	private boolean active = true;
+	/** curent system clock */
 	private double currentClock = 0.0;
+	/** current temperature */
 	private double temperature = 0.0;
+	/** reference to FSM which sends the clock signals */
 	private FSM parent;
 
+	/** statistical temperature collector */
 	private TimeSeriesMultiMeanCollector tempCol;
+	/** statistical load collector */
 	private TimeSeriesMultiMeanCollector loadCol;
 
 	public Fridge(FSM parent, double initialTemperature,
@@ -41,6 +59,9 @@ public class Fridge implements ClockListener {
 		this.loadCol = loadCol;
 	}
 
+	/**
+	 * Increases the clock counter and updates the internal temperature.
+	 */
 	public void clock(long clock) {
 		currentClock = clock;
 		// Calculate eps based on clock = 1Hz
@@ -62,18 +83,31 @@ public class Fridge implements ClockListener {
 		// + " - Fridge temperature = " + temperature);
 	}
 
+	/**
+	 * Enables the cooling.
+	 */
 	public void enableCooling() {
 		active = true;
 	}
 
+	/**
+	 * Disables the cooling.
+	 */
 	public void disableCooling() {
 		active = false;
 	}
 
+	/**
+	 * @return the current temperature
+	 */
 	public double getTemperature() {
 		return temperature;
 	}
 
+	/*
+	 * Getters, setters
+	 */
+	
 	public double getT_surround() {
 		return t_surround;
 	}

@@ -24,6 +24,16 @@ import de.uniol.ui.fsm.ui.ProgressComposite;
 import de.uniol.ui.fsm.ui.StepChartDialog;
 import de.uniol.ui.fsm.ui.TimeSeriesMultiMeanCollector;
 
+/**
+ * This class was used to produce some single loadcurves with DSC signal. Random
+ * numbers are created using a {@link Congruential} rng seeded by
+ * {@link Math#random()}.
+ * 
+ * @author <a href=
+ *         "mailto:Christian%20Hinrichs%20%3Cchristian.hinrichs@uni-oldenburg.de%3E"
+ *         >Christian Hinrichs, christian.hinrichs@uni-oldenburg.de</a>
+ * 
+ */
 public class SingleTestsDSC {
 
 	/** Simulation length */

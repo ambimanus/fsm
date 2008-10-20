@@ -1,5 +1,14 @@
 package de.uniol.ui.fsm.projects.fridge;
 
+/**
+ * This class contains the configuration values for a simulation. The random
+ * numbers will be seeded by {@link Math#random()}.
+ * 
+ * @author <a href=
+ *         "mailto:Christian%20Hinrichs%20%3Cchristian.hinrichs@uni-oldenburg.de%3E"
+ *         >Christian Hinrichs, christian.hinrichs@uni-oldenburg.de</a>
+ * 
+ */
 public class Configuration {
 	
 	/** instance-counter */

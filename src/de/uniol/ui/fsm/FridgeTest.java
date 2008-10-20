@@ -1,6 +1,15 @@
 package de.uniol.ui.fsm;
 
-
+/**
+ * This class was used to produce the single controller validation results in
+ * the thesis.
+ * 
+ * @author <a href=
+ *         "mailto:Christian%20Hinrichs%20%3Cchristian.hinrichs@uni-oldenburg.de%3E"
+ *         >Christian Hinrichs, christian.hinrichs@uni-oldenburg.de</a>
+ * 
+ * @deprecated Replaced by {@link MultipleFridgeTest}.
+ */
 public class FridgeTest {
 
 //	/** Simulation length */

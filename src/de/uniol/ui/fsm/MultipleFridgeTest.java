@@ -27,6 +27,16 @@ import de.uniol.ui.fsm.ui.ProgressComposite;
 import de.uniol.ui.fsm.ui.StepChartDialog;
 import de.uniol.ui.fsm.ui.TimeSeriesMultiMeanCollector;
 
+/**
+ * This is the main class of the FSM simulator which was used to produce the
+ * results of the linear error analysis in the thesis. Random numbers are
+ * created using a {@link Congruential} rng seeded by {@link Math#random()}.
+ * 
+ * @author <a href=
+ *         "mailto:Christian%20Hinrichs%20%3Cchristian.hinrichs@uni-oldenburg.de%3E"
+ *         >Christian Hinrichs, christian.hinrichs@uni-oldenburg.de</a>
+ * 
+ */
 public class MultipleFridgeTest {
 
 	/** Simulation length */
