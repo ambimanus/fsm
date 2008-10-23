@@ -1,5 +1,6 @@
 package de.uniol.ui.fsm;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
@@ -26,6 +27,7 @@ import de.uniol.ui.fsm.ui.LineChartDialog;
 import de.uniol.ui.fsm.ui.ProgressComposite;
 import de.uniol.ui.fsm.ui.StepChartDialog;
 import de.uniol.ui.fsm.ui.TimeSeriesMultiMeanCollector;
+import de.uniol.ui.fsm.util.ResultWriter;
 
 /**
  * This is the main class of the FSM simulator which was used to produce the
@@ -42,17 +44,37 @@ public class MultipleFridgeTest {
 	/** Simulation length */
 	private final static long steps = 60 * 60 * 20;
 	
-	private final static long dsc_load = 60 * 360;
+	private final static long dsc_load = 60 * 60 * 6;
 	private final static double dsc_spread = 10.0;
 
-	private final static long tlr_t_notify = 60 * 360;
+	private final static long tlr_t_notify = 60 * 60 * 6;
 	private final static double tlr_tau_preload = 30.0;
 	private final static double tlr_tau_reduce = 90.0;
+	
+	private static File file = new File(System.getProperty("user.dir")
+			+ File.separator + "data" + File.separator + "out.csv");
 
 	public static void main(String[] args) {
 //		test_DSC_load(true);
 //		test_DSC_unload(true);
-		test_TLR(true);
+//		test_TLR(true);
+		write();
+	}
+	
+	private static void write() {
+		Configuration conf = new Configuration();
+		conf.POPULATION_SIZE = 5000;
+		conf.variate_Tcurrent = Configuration.VARIATE.UNIFORM;
+		conf.variate_mc = Configuration.VARIATE.NORMAL;
+		conf.variate_A = Configuration.VARIATE.NORMAL;
+		conf.variate_TO = Configuration.VARIATE.NORMAL;
+		conf.variate_eta = Configuration.VARIATE.NORMAL;
+		conf.title = "event simulation";
+		
+		TimeSeriesMultiMeanCollector[] results;
+		results = run_TLR_random(conf);
+		ResultWriter.writeResultsSimple(results[0].getResults(), results[1]
+				.getResults(), file);
 	}
 	
 	private static void test_DSC_load(boolean block) {
