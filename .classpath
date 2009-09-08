@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/swt.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/jfreechart-1.0.10-fastpatch"/>
-	<classpathentry kind="lib" path="lib/simkit.jar" sourcepath="C:/Program Files/Simkit/simkit-src.zip"/>
+	<classpathentry kind="lib" path="lib/swt-3.4-gtk-linux-x86_64.jar"/>
+	<classpathentry kind="lib" path="lib/simkit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
